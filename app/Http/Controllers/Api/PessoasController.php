@@ -17,7 +17,7 @@ class PessoasController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        abort_if(! $request->has('t'), 400, 'O parâmetro "t" é obrigatório.');
+        abort_if(! $request->input('t'), 400, 'O parâmetro "t" é obrigatório.');
 
         return PessoaResource::collection(
             Pessoa::query()

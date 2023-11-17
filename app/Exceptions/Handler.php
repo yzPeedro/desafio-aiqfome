@@ -30,7 +30,7 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'status' => 'error',
                 'data' => [
-                    'message' => __('validation.http.500'),
+                    'message' => 'Ocorreu um erro inesperado. Por favor, tente novamente mais tarde.',
                 ],
             ], 500);
         });
