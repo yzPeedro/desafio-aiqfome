@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Pessoa\StorePessoaRequest;
+use App\Http\Requests\Pessoa\StoreRequest;
 use App\Http\Resources\PessoaResource;
 use App\Models\Pessoa;
 use Illuminate\Http\JsonResponse;
@@ -29,7 +29,7 @@ class PessoasController extends Controller
         )->response();
     }
 
-    public function store(StorePessoaRequest $request): JsonResponse
+    public function store(StoreRequest $request): JsonResponse
     {
         $pessoa = Pessoa::query()->create(['id' => Str::uuid(), ...$request->validated()]);
 

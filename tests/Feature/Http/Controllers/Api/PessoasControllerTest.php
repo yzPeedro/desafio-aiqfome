@@ -13,14 +13,40 @@ class PessoasControllerTest extends TestCase
     public function testSistemaNaoDeveCadastrarPessoaComParametrosInvalidos()
     {
         $this->post(route('pessoas.store'), [
-            'stack' => 'string',
-        ])
-            ->assertStatus(422)
+            'nome' => 1,
+        ])->assertStatus(400)
             ->assertJsonValidationErrors([
                 'apelido',
                 'nome',
                 'nascimento',
-                'stack',
+            ]);
+    }
+
+    public function testSistemaDeveRetornarBadRequestQuandoOsParametrosForemInvalidos()
+    {
+        $this->post(route('pessoas.store'), [
+            'apelido' => 'apelido',
+            'nome' => 1,
+            'nascimento' => '2021-01-01',
+            'stack' => ['php', 'laravel'],
+        ])
+            ->assertStatus(400)
+            ->assertJsonValidationErrors([
+                'nome',
+            ]);
+    }
+
+    public function testSistemaDeveRetornarBadRequestQuandoStackTiverParametrosInvalidos()
+    {
+        $this->post(route('pessoas.store'), [
+            'apelido' => 'apelido',
+            'nome' => 'nome',
+            'nascimento' => '2021-01-01',
+            'stack' => [1, 'laravel'],
+        ])
+            ->assertStatus(400)
+            ->assertJsonValidationErrors([
+                'stack.0',
             ]);
     }
 
