@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Pessoa\IndexRequest;
 use App\Http\Requests\Pessoa\StoreRequest;
 use App\Http\Resources\PessoaResource;
 use App\Models\Pessoa;
@@ -19,19 +20,13 @@ class PessoasController extends Controller
      *
      * @throws Throwable
      */
-    public function index(Request $request): JsonResponse
+    public function index(IndexRequest $request): JsonResponse
     {
-        throw_if(! $request->input('t'),
-            (new ValidationException(
-                validator([], ['t' => 'required'], ['t' => 'O termo de busca é obrigatório.'])
-            ))->status(400)
-        );
-
         return PessoaResource::collection(
             Pessoa::query()
-                ->where('apelido', 'LIKE', "%{$request->input('t')}%")
-                ->orWhere('nome', 'LIKE', "%{$request->input('t')}%")
-                ->orWhere('stack', 'LIKE', '%"'.$request->input('t').'"%')
+                ->where('apelido', 'LIKE', "%{$request->validated('t')}%")
+                ->orWhere('nome', 'LIKE', "%{$request->validated('t')}%")
+                ->orWhere('stack', 'LIKE', '%"'.$request->validated('t').'"%')
                 ->get()
         )->response();
     }

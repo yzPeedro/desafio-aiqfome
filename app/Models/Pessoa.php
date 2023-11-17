@@ -11,13 +11,7 @@ class Pessoa extends Model
 
     public $incrementing = false;
 
-    protected $fillable = [
-        'id',
-        'apelido',
-        'nome',
-        'nascimento',
-        'stack',
-    ];
+    protected $guarded = [];
 
     protected $casts = [
         'stack' => 'array',
