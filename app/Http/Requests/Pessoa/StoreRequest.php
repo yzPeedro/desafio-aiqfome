@@ -10,10 +10,17 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class StoreRequest extends FormRequest
 {
+    /**
+     * Regras de validação que retornam o código de resposta 400 (erros de sintaxe).
+     *
+     * @var array<string>
+     */
     public const BAD_REQUEST_RULES = ['String', 'Array', 'Date'];
 
     /**
-     * Determine if the user is authorized to make this request.
+     * Retorna se o usuário está autorizado a fazer a requisição.
+     *
+     * @return bool
      */
     public function authorize(): bool
     {
@@ -21,7 +28,7 @@ class StoreRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Retorna as regras de validação para a requisição.
      *
      * @return array<string, ValidationRule|array|string>
      */
@@ -36,7 +43,15 @@ class StoreRequest extends FormRequest
         ];
     }
 
-    protected function failedValidation(Validator $validator)
+    /**
+     * Reescreve o método de validação para retornar
+     * a mensagem de erro com o código de resposta 400 caso seja um erro de sintaxe ou 422
+     * caso seja uma requisição inválida.
+     *
+     * @param Validator $validator
+     * @return void
+     */
+    protected function failedValidation(Validator $validator): void
     {
         collect($validator->failed())->each(function (array $error) use ($validator) {
             if (array_intersect(array_keys($error), self::BAD_REQUEST_RULES)) {

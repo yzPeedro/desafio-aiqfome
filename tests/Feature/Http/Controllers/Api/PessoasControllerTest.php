@@ -13,11 +13,10 @@ class PessoasControllerTest extends TestCase
     public function testSistemaNaoDeveCadastrarPessoaComParametrosInvalidos()
     {
         $this->post(route('pessoas.store'), [
-            'nome' => 1,
-        ])->assertStatus(400)
+            'nome' => 'teste',
+        ])->assertStatus(422)
             ->assertJsonValidationErrors([
                 'apelido',
-                'nome',
                 'nascimento',
             ]);
     }

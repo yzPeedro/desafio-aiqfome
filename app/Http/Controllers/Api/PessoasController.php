@@ -12,6 +12,12 @@ use Illuminate\Support\Str;
 
 class PessoasController extends Controller
 {
+    /**
+     * Retorna uma lista de pessoas de acordo com um termo.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function index(Request $request): JsonResponse
     {
         if (! $request->input('t')) {
@@ -29,6 +35,12 @@ class PessoasController extends Controller
         )->response();
     }
 
+    /**
+     * Cria uma nova pessoa.
+     *
+     * @param StoreRequest $request
+     * @return JsonResponse
+     */
     public function store(StoreRequest $request): JsonResponse
     {
         $pessoa = Pessoa::query()->create(['id' => Str::uuid(), ...$request->validated()]);
@@ -39,11 +51,23 @@ class PessoasController extends Controller
             ->setStatusCode(201);
     }
 
+
+    /**
+     * Lista dados de uma pessoa.
+     *
+     * @param Pessoa $pessoa
+     * @return JsonResponse
+     */
     public function show(Pessoa $pessoa): JsonResponse
     {
         return PessoaResource::make($pessoa)->response();
     }
 
+    /**
+     * Retorna a quantidade de pessoas cadastradas.
+     *
+     * @return JsonResponse
+     */
     public function count(): JsonResponse
     {
         return response()->json(['data' => Pessoa::query()->count()]);
