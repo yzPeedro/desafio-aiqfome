@@ -12,7 +12,7 @@ use Illuminate\Support\Str;
 
 class PessoasController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request): JsonResponse
     {
         if (! $request->input('t')) {
             return response()->json([
@@ -42,5 +42,10 @@ class PessoasController extends Controller
     public function show(Pessoa $pessoa): JsonResponse
     {
         return PessoaResource::make($pessoa)->response();
+    }
+
+    public function count(): JsonResponse
+    {
+        return response()->json(['data' => Pessoa::query()->count()]);
     }
 }

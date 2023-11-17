@@ -120,4 +120,17 @@ class PessoasControllerTest extends TestCase
             ->assertStatus(200)
             ->assertJsonStructure(['data' => []]);
     }
+
+    public function testSistemaDeveRetornarContagemCorretaDePessoas()
+    {
+        $this->get(route('pessoas.count'))
+            ->assertStatus(200)
+            ->assertJsonFragment(['data' => 0]);
+
+        Pessoa::factory(3)->create();
+
+        $this->get(route('pessoas.count'))
+            ->assertStatus(200)
+            ->assertJsonFragment(['data' => 3]);
+    }
 }

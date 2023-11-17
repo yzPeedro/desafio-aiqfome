@@ -16,3 +16,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::apiResource('/pessoas', PessoasController::class)
     ->except(['update', 'destroy']);
+
+Route::get('contagem-pessoas', [PessoasController::class, 'count'])->name('pessoas.count');
