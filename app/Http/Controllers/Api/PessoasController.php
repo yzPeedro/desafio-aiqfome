@@ -9,15 +9,23 @@ use App\Models\Pessoa;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
+use Throwable;
 
 class PessoasController extends Controller
 {
     /**
      * Retorna uma lista de pessoas de acordo com um termo.
+     *
+     * @throws Throwable
      */
     public function index(Request $request): JsonResponse
     {
-        abort_if(! $request->input('t'), 400, 'O parâmetro "t" é obrigatório.');
+        throw_if(! $request->input('t'),
+            (new ValidationException(
+                validator([], ['t' => 'required'], ['t' => 'O termo de busca é obrigatório.'])
+            ))->status(400)
+        );
 
         return PessoaResource::collection(
             Pessoa::query()
