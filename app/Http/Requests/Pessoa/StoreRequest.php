@@ -19,8 +19,6 @@ class StoreRequest extends FormRequest
 
     /**
      * Retorna se o usuário está autorizado a fazer a requisição.
-     *
-     * @return bool
      */
     public function authorize(): bool
     {
@@ -47,9 +45,6 @@ class StoreRequest extends FormRequest
      * Reescreve o método de validação para retornar
      * a mensagem de erro com o código de resposta 400 caso seja um erro de sintaxe ou 422
      * caso seja uma requisição inválida.
-     *
-     * @param Validator $validator
-     * @return void
      */
     protected function failedValidation(Validator $validator): void
     {
