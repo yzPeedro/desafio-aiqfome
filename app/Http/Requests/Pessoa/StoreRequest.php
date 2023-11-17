@@ -5,6 +5,7 @@ namespace App\Http\Requests\Pessoa;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Arr;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
@@ -48,14 +49,14 @@ class StoreRequest extends FormRequest
      */
     protected function failedValidation(Validator $validator): void
     {
-        collect($validator->failed())->each(function (array $error) use ($validator) {
-            if (array_intersect(array_keys($error), self::BAD_REQUEST_RULES)) {
-                throw (new ValidationException($validator))
-                    ->errorBag($this->errorBag)
-                    ->redirectTo($this->getRedirectUrl())
-                    ->status(ResponseAlias::HTTP_BAD_REQUEST);
-            }
-        });
+        if (
+            array_intersect(array_keys(Arr::collapse($validator->failed())), self::BAD_REQUEST_RULES)
+        ) {
+            throw (new ValidationException($validator))
+                ->errorBag($this->errorBag)
+                ->redirectTo($this->getRedirectUrl())
+                ->status(ResponseAlias::HTTP_BAD_REQUEST);
+        }
 
         throw (new ValidationException($validator))
             ->errorBag($this->errorBag)
