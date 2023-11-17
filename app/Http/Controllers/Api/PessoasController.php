@@ -23,7 +23,7 @@ class PessoasController extends Controller
             Pessoa::query()
                 ->where('apelido', 'LIKE', "%{$request->input('t')}%")
                 ->orWhere('nome', 'LIKE', "%{$request->input('t')}%")
-                ->orWhereJsonContains('stack', $request->input('t'))
+                ->orWhere('stack', 'LIKE', '%"'.$request->input('t').'"%')
                 ->get()
         )->response();
     }

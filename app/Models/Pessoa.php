@@ -20,6 +20,6 @@ class Pessoa extends Model
     ];
 
     protected $casts = [
-        'stack' => 'json',
+        'stack' => 'array',
     ];
 }

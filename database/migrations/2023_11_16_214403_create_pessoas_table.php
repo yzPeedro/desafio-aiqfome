@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('apelido', 32)->unique();
             $table->string('nome', 100);
             $table->date('nascimento');
-            $table->json('stack')->nullable();
+            $table->longText('stack')->nullable();
             $table->timestamps();
         });
     }
