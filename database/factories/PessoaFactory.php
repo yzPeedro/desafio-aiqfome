@@ -18,9 +18,10 @@ class PessoaFactory extends Factory
     public function definition(): array
     {
         return [
+            'id' => $this->faker->uuid,
             'apelido' => $this->faker->unique()->userName,
             'nome' => $this->faker->name,
-            'data_nascimento' => $this->faker->date,
+            'nascimento' => $this->faker->date,
             'stack' => $this->faker->randomElements([
                 'PHP',
                 'Laravel',

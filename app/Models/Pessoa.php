@@ -9,14 +9,17 @@ class Pessoa extends Model
 {
     use HasFactory;
 
+    public $incrementing = false;
+
     protected $fillable = [
+        'id',
         'apelido',
         'nome',
-        'data_nascimento',
+        'nascimento',
         'stack',
     ];
 
     protected $casts = [
-        'stack' => 'array',
+        'stack' => 'json',
     ];
 }
