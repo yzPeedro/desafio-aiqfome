@@ -27,7 +27,7 @@ class StorePessoaRequest extends FormRequest
             'nome' => ['required', 'max:100'],
             'nascimento' => ['required', 'date', 'date_format:Y-m-d'],
             'stack' => ['array'],
-            'stack.*' => ['string', 'max:32']
+            'stack.*' => ['string', 'max:32'],
         ];
     }
 }

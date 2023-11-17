@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Pessoa\StorePessoaRequest;
 use App\Http\Resources\PessoaResource;
 use App\Models\Pessoa;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -17,7 +16,7 @@ class PessoasController extends Controller
     {
         if (! $request->input('t')) {
             return response()->json([
-                'message' => 'Parâmetro "t" não informado.'
+                'message' => 'Parâmetro "t" não informado.',
             ], 400);
         }
 

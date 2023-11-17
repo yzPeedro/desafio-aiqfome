@@ -20,7 +20,7 @@ class PessoasControllerTest extends TestCase
                 'apelido',
                 'nome',
                 'nascimento',
-                'stack'
+                'stack',
             ]);
     }
 
@@ -30,11 +30,11 @@ class PessoasControllerTest extends TestCase
             'apelido' => 'apelido',
             'nome' => 'nome',
             'nascimento' => '2021-01-01',
-            'stack' => ['php', 'laravel']
+            'stack' => ['php', 'laravel'],
         ])->assertStatus(201)
             ->assertJsonMissingPath('data.id')
             ->assertHeader('Location', route('pessoas.show', [
-                'pessoa' => Pessoa::query()->first()->id
+                'pessoa' => Pessoa::query()->first()->id,
             ]))
             ->assertJsonStructure([
                 'data' => [
@@ -42,7 +42,7 @@ class PessoasControllerTest extends TestCase
                     'nome',
                     'nascimento',
                     'stack',
-                ]
+                ],
             ]);
     }
 
@@ -55,7 +55,7 @@ class PessoasControllerTest extends TestCase
         ])->assertStatus(201)
             ->assertJsonMissingPath('data.id')
             ->assertHeader('Location', route('pessoas.show', [
-                'pessoa' => Pessoa::query()->first()->id
+                'pessoa' => Pessoa::query()->first()->id,
             ]))
             ->assertJsonFragment(['stack' => null])
             ->assertJsonStructure([
@@ -64,7 +64,7 @@ class PessoasControllerTest extends TestCase
                     'nome',
                     'nascimento',
                     'stack',
-                ]
+                ],
             ]);
     }
 
@@ -85,7 +85,7 @@ class PessoasControllerTest extends TestCase
                     'nome',
                     'nascimento',
                     'stack',
-                ]
+                ],
             ]);
     }
 
@@ -99,7 +99,7 @@ class PessoasControllerTest extends TestCase
     {
         Pessoa::factory()->create(['stack' => ['php', 'LARAVEL']]);
 
-        $this->get(route('pessoas.index') . '?t=php')
+        $this->get(route('pessoas.index').'?t=php')
             ->assertStatus(200)
             ->assertJsonFragment(['stack' => ['php', 'LARAVEL']])
             ->assertJsonStructure(['data' => [
@@ -109,14 +109,14 @@ class PessoasControllerTest extends TestCase
                     'nome',
                     'nascimento',
                     'stack',
-                ]
-            ]
-        ]);
+                ],
+            ],
+            ]);
     }
 
     public function testSistemaDeveRetornarVazioCasoOTermoNaoSejaEncontrado(): void
     {
-        $this->get(route('pessoas.index') . '?t=termo')
+        $this->get(route('pessoas.index').'?t=termo')
             ->assertStatus(200)
             ->assertJsonStructure(['data' => []]);
     }

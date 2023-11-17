@@ -29,7 +29,7 @@ class PessoaFactory extends Factory
                 'Vue',
                 'React',
                 'Angular',
-                'Node'
+                'Node',
             ]),
         ];
     }
