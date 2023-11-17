@@ -8,17 +8,12 @@ use App\Http\Requests\Pessoa\StoreRequest;
 use App\Http\Resources\PessoaResource;
 use App\Models\Pessoa;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
-use Throwable;
 
 class PessoasController extends Controller
 {
     /**
      * Retorna uma lista de pessoas de acordo com um termo.
-     *
-     * @throws Throwable
      */
     public function index(IndexRequest $request): JsonResponse
     {

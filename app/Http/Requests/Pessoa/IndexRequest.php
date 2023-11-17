@@ -35,6 +35,7 @@ class IndexRequest extends FormRequest
      *
      * @param Validator $validator
      * @return void
+     * @throws ValidationException
      */
     protected function failedValidation(Validator $validator): void
     {
