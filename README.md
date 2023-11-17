@@ -1,66 +1,95 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<p align="center"><img src="https://static.wixstatic.com/media/00f415_cde5691d99574ffd9027b7c9ef8fea4b~mv2.png/v1/fit/w_2500,h_1330,al_c/00f415_cde5691d99574ffd9027b7c9ef8fea4b~mv2.png" width="400" alt="Aiqfome Logo"></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## DESAFIO DESENVOLVEDOR PHP PLENO - AIQFOME
 
-## About Laravel
+### Sobre o desafio
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Este repositório é a minha solução para o desafio de desenvolvedor PHP Pleno para o Aiqfome.
+O teste foi inspirado em um desafio real que ficou famoso na internet recentemente,
+o [Rinha de Backend](https://github.com/zanfranceschi/rinha-de-backend-2023-q3),
+no qual o objetivo é criar uma rixa entre linguagens e frameworks para avaliar qual tecnologia se desempenha melhor em
+determinados
+cenários pré-definidos. O desafio propõe a criação de uma API REST simples para gerenciar pessoas em um sistema.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tecnologias utilizadas
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- [Laravel 10](https://laravel.com/docs/10.x) - Framework PHP
+- [PHP 8.2](https://www.php.net/releases/8.2/en.php) - Linguagem de programação
+- [MySQL](https://dev.mysql.com/) - Banco de dados
+- [GitHub Actions](https://github.com/features/actions) - CI/CD
 
-## Learning Laravel
+## Processo de desenvolvimento
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Ao analisar a proposta do desafio, percebi que o framework Laravel seria ideal para agilizar e assegurar o funcionamento
+de alguns requisitos funcionais da aplicação, para me assegurar de que todas as requisições apontadas para as rotas de
+API funcionassem corretamente, criei um middleware Chamado `EnsureAcceptJson` que garante que todas as requisições que
+chegam na API sejam do tipo `application/json`. Em seguida desenhei o banco de dados, criei a migration e o model de
+`Pessoa` e logo em seguida criei um Resource (ferramenta do laravel que auxilia a tratativa e padronização de dados)
+para a model Pessoa, assim padronizando todos os retornos da API. Após isso, criei o controller de api chamado
+`PessoaController` no qual utilizei o parâmetro `--api` do artisan para criar um controller já com os métodos
+predefinidos
+para uma API REST. Após isso, utilizei os métodos de `index`, `show`, `store`, e removi os
+métodos
+`update` e `destroy`, pois não faziam parte dos requisitos funcionais do desafio. Após isso, criei os testes unitários
+para os métodos `index`, `show` e `store`, no qual utilizei o banco de dados de teste do laravel para testar
+as requisições. Aplicação foi desenvolvida utilizando as seguintes regras de princípios da programação: SOLID, 
+Clean Code, Object Calisthenics e Clean Architecture.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Principais desafios
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Durante o processo de desenvolvimento percebi que eu nunca tinha realizado uma validação de sintaxe para diferenciar
+requisições as 422 de 400 e isso foi extremamente divertido, no começo quebrei um pouco a cabeça pensando em como eu poderia
+fazer isso funcionar sem que ficasse um código muito robusto ou difícil de entender, foi aí que me lembrei de um método
+na classe do Form Request chamado `failedValidation` que é chamado quando a validação falha, assim eu poderia identificar
+um erro de sintaxe e retornar o código 400.
+ 
+<br />
 
-## Laravel Sponsors
+- A princípio eu imaginei e desenhei o campo "stack" da entidade Pessoa do banco de dados como um JSON, assim eu poderia
+converter ele através do atributo "cast" na model Pessoa, porém ao realizar os testes (e é nesse momento que o TDD salva a gente)
+eu percebi que o método `whereJsonContains` do query builder padrão do Laravel não conseguia encontrar um dado no banco de dados
+caso ele apresentasse um único caractere em uma "Case" diferente, ou seja, ele não iria encontrar a pessoa que tivesse a stack
+"NODE" quando o termo de pesquisa fosse "node". Foi aí que eu decidi mudar o campo "stack" para um valor do tipo
+texto e realizar a conversão através do atributo "cast" no model Pessoa, assim fazendo com que tanto a busca quanto o retorno funcionassem corretamente. Esse não foi exatamente um grande desafio, mas eu quebrei a cabeça
+até descobrir que o problema estava na query.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Principais Ferramentas utilizadas
 
-### Premium Partners
+| Ferramenta        | Descrição                                                                      | Motivo do uso                                                                                                                                                                                                |
+|-------------------|--------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| FormRequests      | Permite criar uma classe auxiliar para validar requisições no Laravel          | Me auxiliou na validação dos campos de acordo com regras pre-definidas, retornando erros como 422 e 400 automaticamente como era especificado em um dos requisitos do sistema.                               |
+| Middlewares       | Permite criar uma classe que auxilia na interceptação de requisições           | Me auxiliou na interceptação de requisições para garantir que todas as requisições que chegam na API sejam do tipo `application/json`, mas também poderiam ser utilizados para validar tokens por exemplo    |
+| Resources         | Permite criar uma classe que auxilia a tratativa e retorno de dados no sistema | Me Auxiliou na tratativa de retorno dos dados, tendo em vista que um dos retornos da API não poderia mostrar o ID no corpo da resposta por exemplo, mas sim em um header específico.                         |
+| PHPUnit           | Permite criar testes unitários para o sistema                                  | Me auxiliou na criação de testes automatizados para garantir o funcionamento correto das requisições                                                                                                         |
+| Model Binding     | Permite criar um binding entre o model e o controller                          | Me auxiliou a criar um binding entre o model e o controller, assim evitando a necessidade de buscar o registro no banco de dados                                                                             |
+| Exception Handler | Permite criar uma classe que auxilia na interceptação de exceções              | Me auxiliou na interceptação de exceções para garantir que todas as exceções que chegam na API não fossem retornadas diretamente para o usuário, assim garantindo a segurança dos dados apresentados no JSON |
+| Route Resource    | Permite criar um binding entre o model e a rota                                | Me auxiliou a criar todas as rotas necessárias em poucas linhas de código                                                                                                                                    |
+| Model Factory     | Permite criar uma classe que auxilia na criação de dados para testes           | Me auxiliou a criar dados para testes de forma rápida e prática                                                                                                                                              |
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+> Obs: Todas as ferramentas utilizadas foram escolhidas com base na documentação do Laravel.
 
-## Contributing
+## Como rodar o projeto
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Você pode rodar o projeto da maneira padrão do laravel, instalando as dependências com o composer e rodando o servidor e os testes,
+ou você pode fazer da maneira mais legal: rodando o projeto com o comando criado por mim:
 
-## Code of Conduct
+```bash
+composer aiqfome
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Este comando já vai fazer tudo que você precisa para instalar o projeto enquanto você toma seu cafézinho.
+Logo em seguida basta configurar o seu banco de dados e partir para os testes.
 
-## Security Vulnerabilities
+> Obs.: As especificações dos comandos podem ser encontradas nos arquivos `composer.json` na chave `scripts` 
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# Observações
 
-## License
+Eu gostaria de ter utilizado algumas ferramentas a mais no projeto, ainda mais após descobrir que o teste se tratava
+de uma inspiração direta do desafio [Rinha de Backend](https://github.com/zanfranceschi/rinha-de-backend-2023-q3), que foi
+um desafio que experimentei na época, apesar de não ter contribuído diretamente para o projeto.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Já que o desafio não buscava avaliar o desempenho da aplicação, decidi que não utilizaria
+JOBS e FILAS, apesar de serem ferramentas que eu gosto muito e que eu acredito que poderiam ter me 
+ajudado a mostrar um pouco mais dos meus conhecimentos em Backend.
+
+## Obrigado pela oportunidade 💜
